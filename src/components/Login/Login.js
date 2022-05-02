@@ -1,30 +1,59 @@
-import { getAuth } from "firebase/auth";
-import React from "react";
-import { useSignInWithGoogle } from "react-firebase-hooks/auth";
-import { Link } from "react-router-dom";
+import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import React, { useRef } from "react";
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 import app from "../../firebase.init";
 
 const auth = getAuth(app);
 
 const Login = () => {
-    const [signInWithGoogle, user, loading, error] = useSignInWithGoogle(auth);
+    let navigate = useNavigate();
+    let location = useLocation();
 
+    const [signInWithGoogle, user, loading, googleError] = useSignInWithGoogle(auth);
+    const [signInWithEmailAndPassword, emailUser, emailUserloading, error] = useSignInWithEmailAndPassword(auth);
+
+    const emailRef = useRef("");
+    const passRef = useRef("");
+    let from = location.state?.from?.pathname || "/";
+
+    if (user || emailUser) {
+        navigate(from, { replace: true });
+    }
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        signInWithEmailAndPassword(emailRef.current.value, passRef.current.value);
+    };
+    const [sendPasswordResetEmail, sending, passwordResetError] = useSendPasswordResetEmail(auth);
+
+    const resetPassword = async (event) => {
+        if (!emailRef.current.value) {
+            toast.error("Please Enter Email");
+            return;
+        }
+        await sendPasswordResetEmail(emailRef.current.value);
+        toast.success("Password reset email sent.");
+    };
     return (
         <div className="container">
             <div className="border p-8 mx-auto max-w-[600px] mt-9">
                 <h1 className="text-4xl font-medium mb-9 text-center">Please Login</h1>
-                <form>
-                    <input className="border py-1 px-3 mb-2 w-full" type="email" placeholder="Enter email" required />
+                <form onSubmit={handleSubmit} className="space-y-4">
+                    <input className="border py-1 px-3 w-full" ref={emailRef} type="email" placeholder="Enter email" required />
                     <br />
-                    <input className="border py-1 px-3 mb-2 w-full" type="password" placeholder="Enter Password" required />
+                    <input className="border py-1 px-3 w-full" ref={passRef} type="password" placeholder="Enter Password" required />
                     <br />
+                    {error ? <p className="text-center text-rose-600">Invalid Username or Password</p> : ""}
                     <input className="border px-7 py-2 bg-blue-400 cursor-pointer" type="submit" value="Login" />
                 </form>
+
                 <div className="mt-3">
                     Forget password?
-                    <Link className="text-blue-500 pl-2 hover:underline" to="/login">
+                    <button onClick={resetPassword} className="text-blue-500 pl-2 hover:underline">
                         Click here
-                    </Link>
+                    </button>
                 </div>
                 <div className="mt-3">
                     Don't have an account?
