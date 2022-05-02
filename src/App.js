@@ -16,12 +16,22 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home></Home>}></Route>
                 <Route path="/home" element={<Home></Home>}></Route>
-                <RequireAuth>
-                    <Route path="/inventory" element={<Inventory></Inventory>}></Route>
-                </RequireAuth>
-                <RequireAuth>
-                    <Route path="/inventory/:id" element={<SingleInventoryItem></SingleInventoryItem>}></Route>
-                </RequireAuth>
+                <Route
+                    path="/inventory"
+                    element={
+                        <RequireAuth>
+                            <Inventory></Inventory>
+                        </RequireAuth>
+                    }
+                ></Route>
+                <Route
+                    path="/inventory/:id"
+                    element={
+                        <RequireAuth>
+                            <SingleInventoryItem></SingleInventoryItem>
+                        </RequireAuth>
+                    }
+                ></Route>
 
                 <Route path="/register" element={<Register></Register>}></Route>
                 <Route path="/login" element={<Login></Login>}></Route>
