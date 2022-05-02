@@ -1,4 +1,4 @@
-import { getAuth, sendPasswordResetEmail } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import React, { useRef } from "react";
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,12 +7,14 @@ import app from "../../firebase.init";
 
 const auth = getAuth(app);
 
-const Login = () => {
+const UserLogin = () => {
     let navigate = useNavigate();
     let location = useLocation();
 
-    const [signInWithGoogle, user, loading, googleError] = useSignInWithGoogle(auth);
-    const [signInWithEmailAndPassword, emailUser, emailUserloading, error] = useSignInWithEmailAndPassword(auth);
+    const [signInWithGoogle, user] = useSignInWithGoogle(auth);
+    // const [signInWithGoogle, user, loading, googleError] = useSignInWithGoogle(auth);
+    const [signInWithEmailAndPassword, emailUser, error] = useSignInWithEmailAndPassword(auth);
+    // const [signInWithEmailAndPassword, emailUser, emailUserloading, error] = useSignInWithEmailAndPassword(auth);
 
     const emailRef = useRef("");
     const passRef = useRef("");
@@ -26,7 +28,8 @@ const Login = () => {
         event.preventDefault();
         signInWithEmailAndPassword(emailRef.current.value, passRef.current.value);
     };
-    const [sendPasswordResetEmail, sending, passwordResetError] = useSendPasswordResetEmail(auth);
+    const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
+    // const [sendPasswordResetEmail, sending, passwordResetError] = useSendPasswordResetEmail(auth);
 
     const resetPassword = async (event) => {
         if (!emailRef.current.value) {
@@ -76,4 +79,4 @@ const Login = () => {
     );
 };
 
-export default Login;
+export default UserLogin;

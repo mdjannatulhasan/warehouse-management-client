@@ -1,10 +1,11 @@
 import { Route, Routes } from "react-router";
 import { ToastContainer } from "react-toastify";
 import "./App.css";
+import AddItem from "./components/AddItem/AddItem";
 import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Inventory from "./components/Inventory/Inventory";
-import Login from "./components/Login/Login";
+import UserLogin from "./components/Login/UserLogin";
 import Register from "./components/Register/Register";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import SingleInventoryItem from "./components/SingleInventoryItem/SingleInventoryItem";
@@ -32,9 +33,17 @@ function App() {
                         </RequireAuth>
                     }
                 ></Route>
+                <Route
+                    path="/additem"
+                    element={
+                        <RequireAuth>
+                            <AddItem></AddItem>
+                        </RequireAuth>
+                    }
+                ></Route>
 
                 <Route path="/register" element={<Register></Register>}></Route>
-                <Route path="/login" element={<Login></Login>}></Route>
+                <Route path="/login" element={<UserLogin></UserLogin>}></Route>
             </Routes>
             <ToastContainer></ToastContainer>
         </>
