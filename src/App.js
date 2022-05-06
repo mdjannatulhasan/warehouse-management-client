@@ -34,7 +34,7 @@ function App() {
                     }
                 ></Route>
                 <Route
-                    path="/additem"
+                    path="/add-item"
                     element={
                         <RequireAuth>
                             <AddItem></AddItem>

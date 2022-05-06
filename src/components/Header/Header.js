@@ -18,7 +18,10 @@ const Header = () => {
                     <Link to="/">Home</Link>
                     <Link to="/inventory">Inventory</Link>
                     {user?.uid ? (
-                        <button onClick={() => signOut(auth)}>Sign Out</button>
+                        <>
+                            <Link to="/add-item">Add Item</Link>
+                            <button onClick={() => signOut(auth)}>Sign Out</button>
+                        </>
                     ) : (
                         <>
                             <Link to="/register">Register</Link>

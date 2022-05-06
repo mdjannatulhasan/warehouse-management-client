@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { toast } from "react-toastify";
 
-const AddItem = () => {
+const UpdateItem = () => {
     const productNameRef = useRef("");
     const productPriceRef = useRef("");
     const productQuantityRef = useRef("");
@@ -47,4 +47,4 @@ const AddItem = () => {
     );
 };
 
-export default AddItem;
+export default UpdateItem;
