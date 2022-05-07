@@ -14,13 +14,15 @@ const Inventory = () => {
             <h1 className="text-center text-4xl py-3">This is Inventory</h1>
             <div className="grid lg:grid-cols-3 grid-cols-1 gap-3">
                 {products.map((product) => (
-                    <div key={product._id}>
+                    <div key={product._id} className="space-y-3">
                         <h3>Name: {product.name}</h3>
                         <h3>Price: {product.price}</h3>
                         <h4>Quantity: {product.quantity}</h4>
                         <p>Description: {product.desc}</p>
                         {product.quantity == 0 ? <p className="text-rose-500">Sold Out</p> : ""}
-                        <Link to={`/update-item/${product._id}`}>Update Item</Link>
+                        <Link className="inline-block py-2 px-6 border" to={`/update-item/${product._id}`}>
+                            Update Item
+                        </Link>
                     </div>
                 ))}
             </div>
