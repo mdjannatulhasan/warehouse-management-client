@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateItem = () => {
-    const [product, setProduct] = useState({ name: "", price: "", quantity: "", desc: "", supplier: "" });
+    const [product, setProduct] = useState({ name: "", price: "", quantity: "", desc: "", supplier: "", image: "" });
     const { _id } = useParams();
 
     const [product_quantity, setProduct_quantity] = useState();
     useEffect(() => {
         const getProduct = async () => {
-            const { data } = await axios.get(`https://hasan-inventory.herokuapp.com/item/${_id}`, {
+            const { data } = await axios.get(`http://localhost:3030/item/${_id}`, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 },
@@ -27,10 +27,11 @@ const UpdateItem = () => {
     let productQuantity = product?.quantity;
     let productDesc = product?.desc;
     let productSupplier = product?.supplier;
+    let productImage = product?.image;
 
     const updateProduct = (product) => {
         const setProduct = async () => {
-            const { data } = await axios.post(`https://hasan-inventory.herokuapp.com/additem`, product, {
+            const { data } = await axios.post(`http://localhost:3030/additem`, product, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 },
@@ -88,8 +89,14 @@ const UpdateItem = () => {
         setProduct(newProduct);
     };
     const handleSupplierChange = (event) => {
-        const { desc, ...rest } = product;
-        const newProduct = { desc: event.target.value, ...rest };
+        const { supplier, ...rest } = product;
+        const newProduct = { supplier: event.target.value, ...rest };
+        setProduct(newProduct);
+    };
+    const handleImageChange = (event) => {
+        const { image, ...rest } = product;
+        const newProduct = { image: event.target.value, ...rest };
+        console.log(newProduct.image);
         setProduct(newProduct);
     };
 
@@ -109,6 +116,8 @@ const UpdateItem = () => {
                         <input className="border py-1 px-3 w-full" value={productSupplier} type="text" placeholder="Supplier Name" onChange={handleSupplierChange} required />
                         <br />
                         <textarea className="border py-1 px-3 w-full" onChange={handleDescChange} value={productDesc} placeholder="Product Description"></textarea>
+                        <br />
+                        <textarea className="border py-1 px-3 w-full" onChange={handleImageChange} value={productImage} placeholder="Product Description"></textarea>
                         <br />
                         <input className="border px-7 py-2 bg-blue-400 cursor-pointer" type="submit" value="Update Product" />
                     </form>

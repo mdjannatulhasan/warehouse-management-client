@@ -16,7 +16,7 @@ const MyItem = () => {
     useEffect(() => {
         const getItems = async () => {
             try {
-                const { data } = await axios.get(`https://hasan-inventory.herokuapp.com/myitems?email=${user?.email}`, {
+                const { data } = await axios.get(`http://localhost:3030/myitems?email=${user?.email}`, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                     },
@@ -35,7 +35,7 @@ const MyItem = () => {
         const confirmation = window.confirm("Are you sure, you want to delete this product?");
         const deleteItem = async () => {
             try {
-                const { data } = await axios.delete(`https://hasan-inventory.herokuapp.com/delete/${_id}`, {
+                const { data } = await axios.delete(`http://localhost:3030/delete/${_id}`, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                     },
@@ -55,8 +55,13 @@ const MyItem = () => {
         }
     };
     return (
-        <div className="container">
-            <h1 className="text-center text-4xl py-3">My Items</h1>
+        <div className="container py-16">
+            <div className="lg:flex lg:justify-between items-center">
+                <h1 className="text-4xl py-3">My Items</h1>{" "}
+                <Link className="inline-block py-2 px-6 border" to="/add-item">
+                    Add Item
+                </Link>
+            </div>
             <table border="1" width="100%" className="mt-5">
                 <thead>
                     <tr>
@@ -76,7 +81,7 @@ const MyItem = () => {
                             <td>{product.quantity == 0 ? <p className="text-rose-500">Sold Out</p> : product.quantity}</td>
                             <td>{product.supplier}</td>
                             <td>
-                                <Link className="inline-block py-2 px-6 border" to={`/update-item/${product._id}`}>
+                                <Link className="inline-block py-2 px-6 border" to={`/inventory/${product._id}`}>
                                     Update Item
                                 </Link>
                                 <button

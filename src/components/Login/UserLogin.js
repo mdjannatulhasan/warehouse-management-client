@@ -31,7 +31,7 @@ const UserLogin = () => {
         const email = user?.user?.email || emailUser?.user?.email;
         console.log(email);
         const getToken = async () => {
-            const { data } = await axios.post("https://hasan-inventory.herokuapp.com/login", { email });
+            const { data } = await axios.post("http://localhost:3030/login", { email });
             localStorage.setItem("accessToken", data.token);
             navigate(from, { replace: true });
         };

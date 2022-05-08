@@ -73,7 +73,7 @@ const AddItem = () => {
         console.log(localStorage.getItem("accessToken"));
         const uploadProduct = async () => {
             console.log(localStorage.getItem("accessToken"));
-            const { data } = await axios.post("https://hasan-inventory.herokuapp.com/additem", product, {
+            const { data } = await axios.post("http://localhost:3030/additem", product, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 },

@@ -29,6 +29,9 @@ const Header = () => {
                     </Link>
                     {user?.uid ? (
                         <>
+                            <Link className="hover:text-hover-text" to="/manage-items">
+                                Manage Items
+                            </Link>
                             <Link className="hover:text-hover-text" to="/add-item">
                                 Add Item
                             </Link>
@@ -49,6 +52,9 @@ const Header = () => {
                             </Link>
                         </>
                     )}
+                    <Link className="hover:text-hover-text" to="/blog">
+                        Blog
+                    </Link>
                 </nav>
                 <div
                     onClick={() => {
