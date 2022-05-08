@@ -12,7 +12,7 @@ const Header = () => {
         <div className="bg-[#a5b8cc] py-2">
             <div className="container flex justify-between items-center">
                 <div>
-                    <img width="230px" src="images/site-logo.png" alt="" />
+                    <img width="230px" src={`${process.env.PUBLIC_URL}/images/site-logo.png`} alt="" />
                 </div>
                 <nav className="space-x-5 text-lg">
                     <Link to="/">Home</Link>
@@ -20,6 +20,7 @@ const Header = () => {
                     {user?.uid ? (
                         <>
                             <Link to="/add-item">Add Item</Link>
+                            <Link to="/my-items">My Items</Link>
                             <button onClick={() => signOut(auth)}>Sign Out</button>
                         </>
                     ) : (

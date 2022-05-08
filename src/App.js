@@ -6,6 +6,7 @@ import Header from "./components/Header/Header";
 import Home from "./components/Home/Home";
 import Inventory from "./components/Inventory/Inventory";
 import UserLogin from "./components/Login/UserLogin";
+import MyItem from "./components/MyItem/MyItem";
 import Register from "./components/Register/Register";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import SingleInventoryItem from "./components/SingleInventoryItem/SingleInventoryItem";
@@ -39,6 +40,14 @@ function App() {
                     element={
                         <RequireAuth>
                             <AddItem></AddItem>
+                        </RequireAuth>
+                    }
+                ></Route>
+                <Route
+                    path="/my-items"
+                    element={
+                        <RequireAuth>
+                            <MyItem></MyItem>
                         </RequireAuth>
                     }
                 ></Route>

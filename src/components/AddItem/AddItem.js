@@ -1,7 +1,13 @@
+import { getAuth } from "firebase/auth";
 import React, { useRef } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { toast } from "react-toastify";
+import app from "../../firebase.init";
+
+const auth = getAuth(app);
 
 const AddItem = () => {
+    const [user, loading, error] = useAuthState(auth);
     const productNameRef = useRef("");
     const productPriceRef = useRef("");
     const productQuantityRef = useRef("");
@@ -9,7 +15,7 @@ const AddItem = () => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        const product = { name: productNameRef.current.value, price: productPriceRef.current.value, quantity: productQuantityRef.current.value, desc: productDescRef.current.value };
+        const product = { name: productNameRef.current.value, price: productPriceRef.current.value, quantity: productQuantityRef.current.value, desc: productDescRef.current.value, email: user.email };
 
         fetch("http://localhost:3030/additem", {
             method: "PUT",

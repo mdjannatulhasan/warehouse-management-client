@@ -1,3 +1,4 @@
+import axios from "axios";
 import { getAuth } from "firebase/auth";
 import React, { useRef } from "react";
 import { useSendPasswordResetEmail, useSignInWithEmailAndPassword, useSignInWithGoogle } from "react-firebase-hooks/auth";
@@ -20,14 +21,23 @@ const UserLogin = () => {
     const passRef = useRef("");
     let from = location.state?.from?.pathname || "/";
 
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        const email = emailRef.current.value;
+        await signInWithEmailAndPassword(email, passRef.current.value);
+    };
+
     if (user || emailUser) {
-        navigate(from, { replace: true });
+        const email = user?.user?.email || emailUser?.user?.email;
+        console.log(email);
+        const getToken = async () => {
+            const { data } = await axios.post("http://localhost:3030/login", { email });
+            localStorage.setItem("accessToken", data.token);
+            navigate(from, { replace: true });
+        };
+        getToken();
     }
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        signInWithEmailAndPassword(emailRef.current.value, passRef.current.value);
-    };
     const [sendPasswordResetEmail] = useSendPasswordResetEmail(auth);
     // const [sendPasswordResetEmail, sending, passwordResetError] = useSendPasswordResetEmail(auth);
 
@@ -48,7 +58,7 @@ const UserLogin = () => {
                     <br />
                     <input className="border py-1 px-3 w-full" ref={passRef} type="password" placeholder="Enter Password" required />
                     <br />
-                    {error ? <p className="text-center text-rose-600">Invalid Username or Password</p> : ""}
+                    {error ? <p className="text-center text-rose-600">{error}</p> : ""}
                     <input className="border px-7 py-2 bg-blue-400 cursor-pointer" type="submit" value="Login" />
                 </form>
 
