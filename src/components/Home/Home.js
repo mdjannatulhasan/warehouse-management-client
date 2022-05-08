@@ -8,7 +8,7 @@ const Home = () => {
     const [spinner, setSpinner] = useState(true);
 
     useEffect(() => {
-        fetch(`http://localhost:3030/items`)
+        fetch(`https://hasan-inventory.herokuapp.com/items`)
             .then((res) => res.json())
             .then((data) => setProducts(data));
         if (products.length > 0) {

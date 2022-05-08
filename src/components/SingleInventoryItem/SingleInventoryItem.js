@@ -10,7 +10,7 @@ const SingleInventoryItem = () => {
     const [product_quantity, setProduct_quantity] = useState();
     useEffect(() => {
         const getProduct = async () => {
-            const { data } = await axios.get(`http://localhost:3030/item/${_id}`, {
+            const { data } = await axios.get(`https://hasan-inventory.herokuapp.com/item/${_id}`, {
                 // const { data } = await axios.get(`https://hasan-inventory.herokuapp.com/item/${_id}`, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("accessToken")}`,
@@ -32,7 +32,7 @@ const SingleInventoryItem = () => {
 
     const updateProduct = (product) => {
         const setProduct = async () => {
-            const { data } = await axios.post(`http://localhost:3030/additem`, product, {
+            const { data } = await axios.post(`https://hasan-inventory.herokuapp.com/additem`, product, {
                 headers: {
                     authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 },

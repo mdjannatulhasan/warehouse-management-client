@@ -16,7 +16,7 @@ const MyItem = () => {
     useEffect(() => {
         const getItems = async () => {
             try {
-                const { data } = await axios.get(`http://localhost:3030/myitems?email=${user?.email}`, {
+                const { data } = await axios.get(`https://hasan-inventory.herokuapp.com/myitems?email=${user?.email}`, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                     },
@@ -35,7 +35,7 @@ const MyItem = () => {
         const confirmation = window.confirm("Are you sure, you want to delete this product?");
         const deleteItem = async () => {
             try {
-                const { data } = await axios.delete(`http://localhost:3030/delete/${_id}`, {
+                const { data } = await axios.delete(`https://hasan-inventory.herokuapp.com/delete/${_id}`, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                     },

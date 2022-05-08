@@ -11,7 +11,7 @@ const Inventory = () => {
     const [user] = useAuthState(auth);
     const [products, setProducts] = useState([]);
     useEffect(() => {
-        fetch(`http://localhost:3030/items`)
+        fetch(`https://hasan-inventory.herokuapp.com/items`)
             .then((res) => res.json())
             .then((data) => setProducts(data));
     }, []);
@@ -19,7 +19,7 @@ const Inventory = () => {
         const confirmation = window.confirm("Are you sure, you want to delete this product?");
         const deleteItem = async () => {
             try {
-                const { data } = await axios.delete(`http://localhost:3030/delete/${_id}`, {
+                const { data } = await axios.delete(`https://hasan-inventory.herokuapp.com/delete/${_id}`, {
                     headers: {
                         authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                     },
