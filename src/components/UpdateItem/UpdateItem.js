@@ -1,43 +1,48 @@
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const UpdateItem = () => {
-    const [product, setProduct] = useState({ name: "", price: "", quantity: "", desc: "" });
+    const [product, setProduct] = useState({ name: "", price: "", quantity: "", desc: "", supplier: "" });
     const { _id } = useParams();
 
     const [product_quantity, setProduct_quantity] = useState();
     useEffect(() => {
-        fetch(`http://localhost:3030/item/${_id}`)
-            .then((res) => res.json())
-            .then((data) => {
-                setProduct(data);
-                setProduct_quantity(data.quantity);
+        const getProduct = async () => {
+            const { data } = await axios.get(`http://localhost:3030/item/${_id}`, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
             });
+
+            setProduct(data);
+            setProduct_quantity(data.quantity);
+        };
+        getProduct();
     }, []);
 
     let productName = product?.name;
     let productPrice = product?.price;
     let productQuantity = product?.quantity;
-    let productStockQuantity = product?.quantity;
     let productDesc = product?.desc;
+    let productSupplier = product?.supplier;
 
     const updateProduct = (product) => {
-        fetch("http://localhost:3030/additem", {
-            method: "PUT",
-            headers: {
-                "content-type": "application/json",
-            },
-            body: JSON.stringify(product),
-        })
-            .then((res) => res.json())
-            .then((data) => {
-                if (data.success) {
-                    toast.success("Product Updated");
-                } else {
-                    toast.error("Failed to update product");
-                }
+        const setProduct = async () => {
+            const { data } = await axios.post(`http://localhost:3030/additem`, product, {
+                headers: {
+                    authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                },
             });
+
+            if (data.success) {
+                toast.success("Product Updated");
+            } else {
+                toast.error("Failed to update product");
+            }
+        };
+        setProduct();
     };
     const quantityUpdate = (updatedQuantity) => {
         const { quantity, ...rest } = product;
@@ -82,6 +87,11 @@ const UpdateItem = () => {
         const newProduct = { desc: event.target.value, ...rest };
         setProduct(newProduct);
     };
+    const handleSupplierChange = (event) => {
+        const { desc, ...rest } = product;
+        const newProduct = { desc: event.target.value, ...rest };
+        setProduct(newProduct);
+    };
 
     return (
         <div>
@@ -94,6 +104,9 @@ const UpdateItem = () => {
                         <input className="border py-1 px-3 w-full" onChange={handlePriceChange} value={productPrice} type="number" placeholder="Product Price" required />
                         <br />
                         <input className="border py-1 px-3 w-full" value={productQuantity} type="number" placeholder="Product Quantity" onChange={handleQuantityChange} required />
+                        <br />
+
+                        <input className="border py-1 px-3 w-full" value={productSupplier} type="text" placeholder="Supplier Name" onChange={handleSupplierChange} required />
                         <br />
                         <textarea className="border py-1 px-3 w-full" onChange={handleDescChange} value={productDesc} placeholder="Product Description"></textarea>
                         <br />

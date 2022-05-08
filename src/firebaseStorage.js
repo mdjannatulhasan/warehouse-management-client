@@ -17,6 +17,6 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const storage = getStorage(app, process.env.REACT_APP_BUCKET_URL);
+const storage = getStorage(app);
 
 export default storage;

@@ -11,7 +11,12 @@ module.exports = {
                 "2xl": "6rem",
             },
         },
-        extend: {},
+        extend: {
+            colors: {
+                "text-primary": "#1d374b",
+                "hover-text": "#86571d",
+            },
+        },
     },
     plugins: [],
 };
