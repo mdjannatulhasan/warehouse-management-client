@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 import Inventory from "./components/Inventory/Inventory";
 import UserLogin from "./components/Login/UserLogin";
 import MyItem from "./components/MyItem/MyItem";
+import NotFound from "./components/NotFound/NotFound";
 import Register from "./components/Register/Register";
 import RequireAuth from "./components/RequireAuth/RequireAuth";
 import SingleInventoryItem from "./components/SingleInventoryItem/SingleInventoryItem";
@@ -62,6 +63,7 @@ function App() {
 
                 <Route path="/register" element={<Register></Register>}></Route>
                 <Route path="/login" element={<UserLogin></UserLogin>}></Route>
+                <Route path="*" element={<NotFound></NotFound>}></Route>
             </Routes>
             <ToastContainer></ToastContainer>
         </>
