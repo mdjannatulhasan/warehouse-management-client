@@ -5,11 +5,17 @@ import "./Home.css";
 
 const Home = () => {
     const [products, setProducts] = useState([]);
+    const [spinner, setSpinner] = useState(true);
+
     useEffect(() => {
         fetch(`http://localhost:3030/items`)
             .then((res) => res.json())
             .then((data) => setProducts(data));
+        if (products.length > 0) {
+            setSpinner(false);
+        }
     }, []);
+
     const sixProducts = products.slice(0, 6);
     return (
         <div>
@@ -31,34 +37,49 @@ const Home = () => {
 
             <div className="container lg:pt-20 py-16">
                 <h2 className="text-text-primary text-4xl text-center pb-10 font-medium">Inventory Items</h2>
-                <div className="grid lg:grid-cols-3 grid-cols-1 gap-5">
-                    {sixProducts.map((product) => (
-                        <div key={product._id} className="">
-                            <div className="border py-5 px-4">
-                                <img src={product.image} alt={product.name} />
-                                <div className="px-3 pt-3 text-text-primary space-y-2">
-                                    <div className="item-name text-2xl py-2">{product.name}</div>
-                                    <div className="price text-lg">
-                                        <i className="text-xl fas fa-dollar-sign mr-2"></i> {product.price}
-                                    </div>
-                                    <div className="quantity text-lg">
-                                        <i className="text-xl fas fa-boxes  mr-2"></i>{" "}
-                                        {product.quantity <= 0 ? <span className="text-rose-500">Out of stock</span> : `Only ${product.quantity} left at stock`}
-                                    </div>
-                                    <div className="supplier text-lg">
-                                        <i className="text-xl fas fa-truck  mr-2"></i> {product.supplier}
-                                    </div>
-                                    <div className="pt-2">{product.desc.substring(0, 200)}...</div>
-                                    <div className="text-center">
-                                        <Link className="py-2 px-4 border my-3 inline-block bg-slate-300 hover:bg-slate-400" to={`/inventory/${product._id}`}>
-                                            Update Item
-                                        </Link>
+                {spinner ? (
+                    <button
+                        type="button"
+                        class="inline-flex items-center px-4 py-2 font-semibold leading-6 text-sm shadow rounded-md text-white bg-indigo-500 hover:bg-indigo-400 transition ease-in-out duration-150 cursor-not-allowed"
+                        disabled=""
+                    >
+                        <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                        </svg>
+                        Processing...
+                    </button>
+                ) : (
+                    <div className="grid lg:grid-cols-3 grid-cols-1 gap-5">
+                        {sixProducts.map((product) => (
+                            <div key={product._id} className="">
+                                <div className="border py-5 px-4">
+                                    <img src={product.image} alt={product.name} />
+                                    <div className="px-3 pt-3 text-text-primary space-y-2">
+                                        <div className="item-name text-2xl py-2">{product.name}</div>
+                                        <div className="price text-lg">
+                                            <i className="text-xl fas fa-dollar-sign mr-2"></i> {product.price}
+                                        </div>
+                                        <div className="quantity text-lg">
+                                            <i className="text-xl fas fa-boxes  mr-2"></i>{" "}
+                                            {product.quantity <= 0 ? <span className="text-rose-500">Out of stock</span> : `Only ${product.quantity} left at stock`}
+                                        </div>
+                                        <div className="supplier text-lg">
+                                            <i className="text-xl fas fa-truck  mr-2"></i> {product.supplier}
+                                        </div>
+                                        <div className="pt-2">{product.desc.substring(0, 200)}...</div>
+                                        <div className="text-center">
+                                            <Link className="py-2 px-4 border my-3 inline-block bg-slate-300 hover:bg-slate-400" to={`/inventory/${product._id}`}>
+                                                Update Item
+                                            </Link>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    ))}
-                </div>
+                        ))}
+                    </div>
+                )}
+
                 <div className="text-center mx-auto pt-4">
                     <Link className="py-2 px-4 border my-3 inline-block bg-slate-300 hover:bg-slate-400" to={`/inventory`}>
                         Manage Invetories
