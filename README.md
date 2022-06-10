@@ -1,6 +1,6 @@
 # Hasan Inventory
 
-live link -> <a href='https://hasan-inventory.web.app/'>
+live link -> <a href='https://hasan-inventory.web.app/'>https://hasan-inventory.web.app/</a>
 
 ## Description
 
